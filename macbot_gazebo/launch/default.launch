@@ -1,0 +1,66 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Author : Eech Hsiao -->
+<!-- hsiaoy4@mcmaster.ca -->
+
+<launch>
+	<arg name = "world"			default = "empty"					/> 
+	<arg name = "paused" 		default = "false"					/>
+	<arg name = "use_sim_time" 	default = "true"					/>
+	<arg name = "gui" 			default = "true"					/>
+	<arg name = "headless" 		default = "false"					/>
+	<arg name = "debug" 		default = "false"					/>
+	<arg name = "model" 		default = "robot_textured.xacro"	/>
+	<arg name = "show_ls"		default = "false"					/>
+	<arg name = "type_ls"		default = "gpu_ray"					/>
+	<arg name = "rviz_config"	default = "sensors"					/>
+	
+	<!-- ROBOT INITIAL POSE -->
+	<arg name = "x"				default = "1"						/>
+	<arg name = "y"				default = "-11"						/>
+	<arg name = "z"				default = "0"						/>
+	<arg name = "roll"			default = "0"						/>
+	<arg name = "pitch"			default = "0"						/>
+	<arg name = "yaw"			default = "1.5707"					/>
+
+
+	<include file = "$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name = "world_name" 	value = "$(find macbot_gazebo)/world/$(arg world).world"	/>
+		<arg name = "paused" 		value = "$(arg paused)"										/>
+		<arg name = "use_sim_time" 	value = "$(arg use_sim_time)"								/>
+		<arg name = "gui" 			value = "$(arg gui)"										/>
+		<arg name = "headless" 		value = "$(arg headless)"									/>
+		<arg name = "debug" 		value = "$(arg debug)"										/>
+	</include>
+
+	<!-- Launch parameter model:=file.xacro -->
+	<param name = "robot_description" command = "$(find xacro)/xacro --inorder '$(find macbot_description)/urdf/$(arg model)' 
+		vis_ls:=$(arg show_ls) ray_type:=$(arg type_ls) use_nominal_extrinsics:=true" />
+	
+	<node name = "robot_spawn" pkg = "gazebo_ros" type = "spawn_model" output = "screen"
+		args = "-urdf -param robot_description -model robot
+		-x $(arg x) -y $(arg y) -z $(arg z)
+		-R $(arg roll) -P $(arg pitch) -Y $(arg yaw)" />
+
+
+	<!-- LOAD CONTROLLER -->
+	<rosparam file = "$(find macbot_description)/config/diff_drive_controller_params.yaml"	command = "load"/>
+	<rosparam file = "$(find macbot_description)/config/joint_state_controller.yaml"			command = "load"/>
+	<!-- <rosparam file = "$(find macbot_description)/config/gazebo_ros_control_params.yaml"		command = "load"/> -->
+
+	<!-- CONTROLLER MANAGER -->
+	<node name = "robot_controller_manager" pkg = "controller_manager" type = "spawner" respawn = "true" output = "screen" 
+		args = "mobile_base_controller 
+				joint_state_controller" />
+
+	<!-- Joint State Publisher -->
+	<!-- Don't use Joint State Publisher with diff_drive_controller -->
+	<!-- <node name = "joint_state_publisher" pkg = "joint_state_publisher" type = "joint_state_publisher">
+	<param name = "use_gui" value = "false"/>
+	</node> -->
+
+	<!-- Combine joint values -->
+	<node name = "robot_state_publisher" pkg = "robot_state_publisher" type = "robot_state_publisher"/>
+	
+	<!-- RVIZ -->
+	<node name = "rviz" pkg = "rviz" type = "rviz" args = "-d $(find macbot_description)/rviz/$(arg rviz_config).rviz"/>
+</launch>

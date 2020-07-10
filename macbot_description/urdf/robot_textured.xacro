@@ -1,0 +1,272 @@
+<?xml version ='1.0'?>
+<!-- Author : Eech Hsiao -->
+<!-- hsiaoy4@mcmaster.ca -->
+
+<robot name = "robot" xmlns:xacro = "http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename = "$(find macbot_description)/urdf/material.xacro" />
+    <xacro:include filename = "$(find macbot_description)/urdf/robot_textured.gazebo" />
+
+
+    <!-- LEFT and RIGHT designations taken from POV of Robot -->
+    <!-- 0.3 (wide) // 0.322 (long) // 0.188 (height)-->
+    <!-- 0.065 (wheel diameter) -->
+    <!-- 0.037 (caster diameter) -->
+
+    <xacro:property name = "mirror_caster_x"    value = "0.102"     />
+    <xacro:property name = "mirror_caster_y"    value = "0.0806"    />
+    <xacro:property name = "mirror_caster_z"    value = "0.0122"    />
+    <xacro:property name = "caster_radius"      value = "0.0185"    />
+    <xacro:property name = "caster_thickness"   value = "0.02"      />
+    
+
+    <xacro:property name = "mirror_wheel_x"     value = "0.0753"    />
+    <xacro:property name = "mirror_wheel_y"     value = "0.137"     />
+    <xacro:property name = "mirror_wheel_z"     value = "0.004"     />
+    <xacro:property name = "wheel_radius"       value = "0.0325"    />
+    <xacro:property name = "wheel_thickness"    value = "0.025"     />
+
+    <!-- DUMMY LINK -->
+    <!-- <link name = "dummy"/> -->
+    
+    <!-- CHASSIS -->
+    <link name = "base_link">
+        <!-- Giving a little height off the Z axis -->
+        <pose>0 0 0.1 0 0 0</pose>
+
+        <inertial>
+            <mass value = "20" />    
+            <origin xyz = "-0.085 0 0.01" rpy = "0 0 0" />
+            <inertia
+                ixx="0.01" ixy="0" ixz="0"
+                iyy="0.01" iyz="0"
+                izz="0.01"/>
+        </inertial>
+
+        <!-- BODY -->
+        <collision name = 'base_link_collision'>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/chassis.dae" />
+            </geometry>
+        </collision>
+
+        <visual name = 'base_link_visual'>
+            <origin xyz = "0 0 0" rpy = "0 0 0"/>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/chassis.dae" />
+            </geometry>
+            <material name = "green"/>
+        </visual>
+    </link>
+
+    <!-- LEFT CASTER -->
+    <link name = "left_caster">
+        <inertial>
+            <mass value = "10" /> 
+            <origin xyz = "0 0 0" rpy = "0 0 0" />
+            <inertia
+                ixx = "0.1" ixy = "0" ixz = "0"
+                iyy = "0.1" iyz = "0"
+                izz = "0.1"/>
+        </inertial>
+
+        <collision name = 'left_caster_collision'>
+            <origin xyz ="0 0 0" rpy = "0 0 0"/>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/caster.dae" />
+            </geometry>
+        </collision>
+
+        <visual name = 'left_caster_visual'>
+            <origin xyz ="0 0 0" rpy = "0 0 0"/>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/caster.dae" />
+            </geometry>
+            <material name = "magenta"/>
+        </visual>
+    </link>
+
+    <!-- RIGHT CASTER -->
+    <link name = "right_caster">
+        <inertial>
+            <mass value = "10" /> 
+            <origin xyz = "0 0 0" rpy = "0 0 0" />
+            <inertia
+                ixx = "0.1" ixy = "0" ixz = "0"
+                iyy = "0.1" iyz = "0"
+                izz = "0.1"/>
+        </inertial>
+
+        <collision name = 'right_caster_collision'>
+            <origin xyz ="0 0 0" rpy = "0 0 0"/>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/caster.dae" />
+            </geometry>
+        </collision>
+
+        <visual name = 'right_caster_visual'>
+            <origin xyz ="0 0 0" rpy = "0 0 0"/>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/caster.dae" />
+            </geometry>
+            <material name = "magenta"/>
+        </visual>
+    </link>
+
+    
+    <!-- LEFT WHEEL -->
+    <link name = "left_wheel">
+        <inertial>
+            <mass value = "15" /> 
+            <origin xyz = "0 0 0" rpy = "0 0 0" />
+            <inertia
+                ixx = "0.1" ixy = "0" ixz = "0"
+                iyy = "0.1" iyz = "0"
+                izz = "0.1"/>
+        </inertial>
+
+        <collision name = "left_wheel_collision">
+            <origin xyz = "0 0 0" rpy = "0 0 0"/>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/left_wheel.dae" />
+             </geometry>
+        </collision>
+
+        <visual name = "left_wheel_visual">
+            <origin xyz = "0 0 0" rpy = "0 0 0"/>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/left_wheel.dae" />
+            </geometry>
+        </visual>
+    </link>
+
+    <!-- RIGHT WHEEL -->
+    <link name = "right_wheel">
+        <inertial>
+            <mass value = "15" /> 
+            <origin xyz = "0 0 0" rpy = "0 0 0" />
+            <inertia
+                ixx = "0.1" ixy = "0" ixz = "0"
+                iyy = "0.1" iyz = "0"
+                izz = "0.1"/>
+        </inertial>
+
+        <collision name = "right_wheel_collision">
+            <origin xyz = "0 0 0" rpy = "0 0 0"/>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/right_wheel.dae" />
+             </geometry>
+        </collision>
+
+        <visual name = "right_wheel_visual">
+            <origin xyz = "0 0 0" rpy = "0 0 0"/>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/right_wheel.dae" />
+            </geometry>
+        </visual>
+    </link>
+
+    <!-- LIDAR -->
+    <link name = "ydlidar">
+        <inertial>
+            <mass value = "1" /> 
+            <origin xyz = "0 0 0" rpy = "0 0 0" />
+            <inertia
+                ixx = "1e-6" ixy = "0" ixz = "0"
+                iyy = "1e-6" iyz = "0"
+                izz = "1e-6"/>
+        </inertial>
+
+        <collision>
+            <origin xyz = "0 0 0" rpy = "0 0 0"/>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/lidar.dae"/>
+            </geometry>
+        </collision>
+
+        <visual>
+            <origin xyz = "0 0 0" rpy = "0 0 0"/>
+            <geometry>
+                <mesh filename = "package://macbot_description/meshes/lidar.dae"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <!-- CAMERA -->
+    <xacro:include filename = "$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+    <sensor_d435 parent = "base_link">
+        <origin xyz = "0.123 0 0.123" rpy = "0 0 0"/>
+    </sensor_d435>
+
+    <!-- JOINTS -->
+    <!-- <joint type = "fixed" name = "dummy_joint">
+        <child link = "base_link"/>
+        <parent link = "dummy"/>
+    </joint> -->
+
+    <joint type = "continuous" name = "left_wheel_joint">
+        <origin xyz = "${mirror_wheel_x} ${mirror_wheel_y} -${mirror_wheel_z}" rpy = "0 0 0"/>
+        <child link = "left_wheel"/>
+        <parent link = "base_link"/>
+        <axis xyz = "0 1 0" rpy = "0 0 0"/>
+        <!-- <limit effort = "10000" velocity = "1000"/> -->
+        <!-- <joint_properties damping = "1" friction = "1"/> -->
+    </joint>
+
+    <joint type = "continuous" name = "right_wheel_joint">
+        <origin xyz = "${mirror_wheel_x} -${mirror_wheel_y} -${mirror_wheel_z}" rpy = "0 0 0"/>
+        <child link = "right_wheel"/>
+        <parent link = "base_link"/>
+        <axis xyz = "0 1 0" rpy = "0 0 0"/>
+        <!-- <limit effort = "10000" velocity = "1000"/> -->
+        <!-- <joint_properties damping = "1" friction = "1"/> -->
+    </joint>
+
+    <joint type = "fixed" name = "left_caster_joint">
+        <origin xyz ="-${mirror_caster_x} ${mirror_caster_y} ${mirror_caster_z}" rpy = "0 0 0"/>
+        <child link = "left_caster"/>
+        <parent link = "base_link"/>
+    </joint>
+
+    <joint type = "fixed" name = "right_caster_joint">
+        <origin xyz ="-${mirror_caster_x} -${mirror_caster_y} ${mirror_caster_z}" rpy = "0 0 0"/>
+        <child link = "right_caster"/>
+        <parent link = "base_link"/>
+    </joint>
+
+    <joint type = "fixed" name = "lidar_joint">
+        <origin xyz = "0.0587 0 0.196" rpy = "0 0 0"/>
+        <axis xyz = "0 1 0" />
+        <child link = "ydlidar"/>
+        <parent link = "base_link"/>
+    </joint>
+
+    <!-- TRANSMISSION TAGS -->
+    <transmission name = "left_wheel_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name = "left_wheel_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+
+        <actuator name = "left_wheel_actuator">
+            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </actuator>
+    </transmission>
+
+    <transmission name = "right_wheel_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name = "right_wheel_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>  
+        </joint>
+
+        <actuator name = "right_wheel_actuator">
+            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </actuator>
+    </transmission>
+
+    <gazebo>
+        <plugin name = "gazebo_ros_control" filename = "libgazebo_ros_control.so"/>
+    </gazebo>
+</robot>

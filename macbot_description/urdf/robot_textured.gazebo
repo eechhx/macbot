@@ -1,0 +1,129 @@
+<?xml version = "1.0"?>
+<!-- Author : Eech Hsiao -->
+<!-- hsiaoy4@mcmaster.ca -->
+
+<robot xmlns:xacro = "http://www.ros.org/wiki/xacro">
+    <xacro:arg name = "vis_ls"      default = "false"/>
+    <xacro:arg name = "ray_type"    default = "gpu_ray"/>
+
+    <xacro:property name = "min_depth_caster"   value = "0.00315420"/> <!-- 0.0032 -->
+    <xacro:property name = "min_depth_wheel"    value = "0.00315515"/>   
+
+    <!-- USING GAZEBO DIFF DRIVE PLUGIN -->
+    <!-- <gazebo>
+        <plugin name = "differential_drive_controller" filename = "libgazebo_ros_diff_drive.so">
+        <legacyMode>false</legacyMode>
+        <alwaysOn>true</alwaysOn>
+        <updateRate>100</updateRate>
+        <leftJoint>left_wheel_joint</leftJoint>
+        <rightJoint>right_wheel_joint</rightJoint>
+        <wheelSeparation>0.274</wheelSeparation>
+        <wheelDiameter>0.065</wheelDiameter>
+        <wheelTorque>20</wheelTorque>
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <robotBaseFrame>base_link</robotBaseFrame>
+        </plugin>
+    </gazebo> -->
+
+    <!-- USING DIFF_DRIVE_CONTROLLER -->
+    <!-- <gazebo>
+        <plugin name = "gazebo_ros_control" filename = "libgazebo_ros_control.so"/>
+    </gazebo> -->
+
+    <!-- GAZEBO TUNING -->
+    <gazebo reference = "left_wheel">
+        <fdir1 value = "0 1 0"/>
+        <maxVel value = "0.5"/>
+        <minDepth value = "${min_depth_wheel}"/>
+        <mu1 value = "200"/>
+        <mu2 value = "100"/>
+        <kp value = "1000000.0"/> <!--contact stiffness-->
+        <kd value = "100"/> <!--damping-->
+    </gazebo>
+
+    <gazebo reference = "right_wheel">
+        <fdir1 value = "0 1 0"/>
+        <maxVel value = "0.5"/>
+        <minDepth value = "${min_depth_wheel}"/>
+        <mu1 value = "200"/>
+        <mu2 value = "100"/>
+        <kp value = "1000000.0"/> <!--contact stiffness-->
+        <kd value = "100"/> <!--damping-->
+    </gazebo>
+
+    <gazebo reference = "left_caster">
+        <maxVel value = "0.5"/>
+        <minDepth value = "${min_depth_caster}"/>
+        <mu1 value = "0.1"/>
+        <mu2 value = "0.1"/>
+        <kp value = "10000000.0"/> <!--contact stiffness-->
+        <kd value = "1.0"/> <!--damping-->
+    </gazebo>
+    
+    <gazebo reference = "right_caster">
+        <maxVel value = "0.5"/>
+        <minDepth value = "${min_depth_caster}"/>
+        <mu1 value = "0.1"/>
+        <mu2 value = "0.1"/>
+        <kp value = "10000000.0"/> <!--contact stiffness-->
+        <kd value = "1.0"/> <!--damping-->
+    </gazebo>
+
+    <!-- LIDAR -->
+    <gazebo reference = "ydlidar">
+        <sensor type = "$(arg ray_type)" name = "lidar_sensor">
+            <pose>0 0 0 0 0 0</pose>
+
+            <!-- TURN ON OR OFF THE VISUALIZATION OF THE LIDAR LASERSCAN -->
+            <visualize>$(arg vis_ls)</visualize>
+            <update_rate>50</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>500</samples> <!-- 720 -->
+                        <resolution>1</resolution>
+                        <min_angle>0</min_angle>
+                        <max_angle>6.2831853</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.10</min>
+                    <max>8.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+                <noise>
+                    <type>gaussian</type>
+                    <!-- Noise parameters based on published spec for Hokuyo laser
+                        achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+                        stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+                        reading. -->
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            <plugin name = "gazebo_ros_head_hokuyo_controller" filename = "libgazebo_ros_gpu_laser.so">
+                <topicName>/scan</topicName>
+                <frameName>ydlidar</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    
+    <gazebo reference = "sensor_d435">
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <!-- <gazebo reference = "base_link">
+        <material>Gazebo/Turquoise</material>
+    </gazebo> -->
+
+    <!-- <gazebo reference = "left_wheel">
+        <material>Gazebo/RedGlow</material>
+    </gazebo>
+
+    <gazebo reference = "right_wheel">
+        <material>Gazebo/RedGlow</material>
+    </gazebo> -->
+</robot>

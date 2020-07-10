@@ -1,0 +1,30 @@
+<?xml version = "1.0"?>
+
+<launch>
+  <master auto = "start" />
+
+  <param name = "use_sim_time" value = "true"/>
+
+    <node pkg = "gmapping" name = "slam_gmapping" type = "slam_gmapping" output = "screen">
+        <param name = "delta"               value = "0.01"      />
+        <param name = "xmin"                value = "-15"       />
+        <param name = "xmax"                value = "15"        />
+        <param name = "ymin"                value = "-15"       />
+        <param name = "ymax"                value = "15"        />
+        <param name = "base_frame"          value = "base_link" />
+        <param name = "linearUpdate"        value = "0.5"       />
+        <param name = "angularUpdate"       value = "0.436"     />
+        <param name = "temporalUpdate"      value = "-1.0"      />
+        <param name = "resampleThreshold"   value = "0.5"       />
+        <param name = "particles"           value = "30"        />
+        <param name = "minimumScore"        value = "300"       />
+
+   <!-- <param name = "srr"                 value = "0.0"		/>
+        <param name = "srt"					value = "0.0"		/>
+        <param name = "str"					value = "0.0"		/>
+        <param name = "stt"					value = "0.0"		/> -->
+        
+        <!-- <remap from = "scan"                to = "robot/laser/scan"/> -->
+
+    </node>
+</launch>

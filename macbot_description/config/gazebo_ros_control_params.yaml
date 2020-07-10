@@ -1,0 +1,11 @@
+gazebo_ros_control:
+  pid_gains:
+    left_wheel_hinge:
+      p: 0.01
+      i: 0.001 
+      d: 0.01
+
+    right_wheel_hinge:
+      p: 0.01
+      i: 0.001
+      d: 0.01

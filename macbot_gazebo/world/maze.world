@@ -1,0 +1,29 @@
+<?xml version = "1.0" ?>
+<!-- Author : Eech Hsiao -->
+<!-- hsiaoy4@mcmaster.ca -->
+
+<sdf version = "1.4">
+
+  <world name = "default">
+
+    <include>
+      <uri>model://maze_short_textured</uri>
+    </include>
+
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <gui fullscreen ='0'>
+      <camera name = 'user_camera'>
+        <pose>0.174956 -21.691200 18.658085 0.000000 0.747997 1.567990</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+	
+  </world>
+</sdf>
