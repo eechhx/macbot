@@ -1,5 +1,7 @@
 # MacBot // McMaster's MacBot ROS Stack
 
+![macbot_rviz](macbot_images/macbot_rviz.png)
+
 ### macbot_description
 Contains RViz configuration files, URDFs, and meshes. Textured and textureless variants. Textureless variant does not have sensors attached. 
 
