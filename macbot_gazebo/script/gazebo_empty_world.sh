@@ -3,4 +3,4 @@
 sudo killall rosmaster
 sudo killall gzserver
 sudo killall gzclient
-roslaunch robot_gazebo default.launch
+roslaunch macbot_gazebo default.launch
