@@ -19,12 +19,6 @@
         <param name = "particles"           value = "30"        />
         <param name = "minimumScore"        value = "300"       />
 
-   <!-- <param name = "srr"                 value = "0.0"		/>
-        <param name = "srt"					value = "0.0"		/>
-        <param name = "str"					value = "0.0"		/>
-        <param name = "stt"					value = "0.0"		/> -->
-        
-        <!-- <remap from = "scan"                to = "robot/laser/scan"/> -->
-
-    </node>
+   </node>
+	
 </launch>
