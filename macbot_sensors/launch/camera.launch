@@ -3,7 +3,7 @@
 	<include file="$(find realsense2_camera)/launch/rs_camera.launch">
 		<arg name = "pointcloud_texture_stream"	default = "RS2_STREAM_ANY"/>  <!-- RS2_STREAM_ANY leads to high CPU consumption -->
 		<arg name = "enable_pointcloud"         default = "true"/>
-		<arg name = "enable_color"        	default = "false"/>
+		<arg name = "enable_color"        	default = "true"/>
 		<arg name = "enable_depth"        	default = "true"/>
 		<arg name = "enable_infra2"        	default = "false"/>
 		<arg name = "enable_infra1"        	default = "false"/>
@@ -12,5 +12,5 @@
 		<arg name = "depth_height"        	default = "480"/>
 	</include>
 
-	<node name="rviz" pkg="rviz" type="rviz"/>
+	<!--node name="rviz" pkg="rviz" type="rviz"/-->
 </launch>
