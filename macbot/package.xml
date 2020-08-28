@@ -2,7 +2,7 @@
 <package format="2">
   <name>macbot</name>
   <version>0.0.0</version>
-  <description>The macbot metapackage</description>
+  <description>The MacBot metapackage</description>
   <maintainer email="hsiaoy4@mcmaster.ca">Eech Hsiao</maintainer>
   <author email="hsiaoy4@mcmaster.ca">Eech Hsiao</author>
   <license>MIT</license>
@@ -12,6 +12,7 @@
   <exec_depend>macbot_description</exec_depend>
   <exec_depend>macbot_navigation</exec_depend>
   <exec_depend>macbot_gazebo</exec_depend>
+  <exec_depend>macbot_sensors</exec_depend>
 
   <export>
     <!-- Other tools can request additional information be placed here -->

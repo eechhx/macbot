@@ -9,7 +9,7 @@
 	<arg name = "gui" 			default = "true"					/>
 	<arg name = "headless" 		default = "false"					/>
 	<arg name = "debug" 		default = "false"					/>
-	<arg name = "model" 		default = "robot_textured.xacro"	/>
+	<arg name = "model" 		default = "robot_textured"			/>
 	<arg name = "show_ls"		default = "false"					/>
 	<arg name = "type_ls"		default = "gpu_ray"					/>
 	<arg name = "rviz_config"	default = "sensors"					/>
@@ -33,7 +33,7 @@
 	</include>
 
 	<!-- Launch parameter model:=file.xacro -->
-	<param name = "robot_description" command = "$(find xacro)/xacro --inorder '$(find macbot_description)/urdf/$(arg model)' 
+	<param name = "robot_description" command = "$(find xacro)/xacro --inorder '$(find macbot_description)/urdf/$(arg model).xacro' 
 		vis_ls:=$(arg show_ls) ray_type:=$(arg type_ls) use_nominal_extrinsics:=true" />
 	
 	<node name = "robot_spawn" pkg = "gazebo_ros" type = "spawn_model" output = "screen"
@@ -43,7 +43,7 @@
 
 
 	<!-- LOAD CONTROLLER -->
-	<rosparam file = "$(find macbot_description)/config/diff_drive_controller_params.yaml"	command = "load"/>
+	<rosparam file = "$(find macbot_description)/config/diff_drive_controller_params.yaml"		command = "load"/>
 	<rosparam file = "$(find macbot_description)/config/joint_state_controller.yaml"			command = "load"/>
 	<!-- <rosparam file = "$(find macbot_description)/config/gazebo_ros_control_params.yaml"		command = "load"/> -->
 
@@ -63,4 +63,5 @@
 	
 	<!-- RVIZ -->
 	<node name = "rviz" pkg = "rviz" type = "rviz" args = "-d $(find macbot_description)/rviz/$(arg rviz_config).rviz"/>
+
 </launch>

@@ -72,7 +72,7 @@
     </gazebo>
 
     <!-- LIDAR -->
-    <gazebo reference = "ydlidar">
+    <gazebo reference = "laser">
         <sensor type = "$(arg ray_type)" name = "lidar_sensor">
             <pose>0 0 0 0 0 0</pose>
 
@@ -104,8 +104,8 @@
                 </noise>
             </ray>
             <plugin name = "gazebo_ros_head_hokuyo_controller" filename = "libgazebo_ros_gpu_laser.so">
-                <topicName>/scan</topicName>
-                <frameName>ydlidar</frameName>
+                <topicName>scan</topicName>
+                <frameName>laser</frameName>
             </plugin>
         </sensor>
     </gazebo>
