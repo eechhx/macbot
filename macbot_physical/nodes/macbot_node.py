@@ -33,11 +33,22 @@ class macbot_motor():
             self.motor_driver = MOTOR_DRIVER_LEFT
         elif self.direction == "rwheel":
             self.motor_driver = MOTOR_DRIVER_RIGHT
+    
+    def publishTicks(self):
+        if man.isNewData(self.motor_driver):
+            self.distDict = man.getData(self.motor_driver)
+            print(self.distDict)
+            self.pubTicks.publish(self.distDict)
+
+    # def pubishRate(self):
+    #     self.pubRate.publish(#)
 
 if __name__ == '__main__':
     rospy.init_node('macbot_pubsub', anonymous = True)
     left_wheel_obj = macbot_motor('lwheel')
+    #right_wheel_obj = macbot_motor('rwheel')
 
     while 1:
         rospy.spin()
         time.sleep(0.1)
+        left_wheel_obj.publishTicks()
