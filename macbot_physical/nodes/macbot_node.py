@@ -4,6 +4,9 @@ import time
 import goLinkManager as glm
 import signal
 import sys
+import tf_conversions
+import tf2_ros
+import geometry_msgs.msg
 from std_msgs.msg import (Int32, Float32)
 
 
@@ -18,7 +21,9 @@ class macbot_motor():
     def __init__(self, direction_wheel):
         self.direction = str(direction_wheel)
         self.direction_check()
+        self.t.header.frame_id = "base_link"
         
+        self.t.child_frame_id = str(direction_wheel) + "_wheel_joint"
         self.subTopicRate = str(direction_wheel) + "_desired_rate"
         self.pubTopicTicks = str(direction_wheel) + "_ticks"
         self.pubTopicRate = str(direction_wheel) + "_rate"
@@ -33,8 +38,14 @@ class macbot_motor():
     def direction_check(self):
         if self.direction == "lwheel":
             self.motor_driver = MOTOR_DRIVER_LEFT
+            self.t.transform.translation.x = 0.0753
+            self.t.transform.translation.y = 0.137
+            self.t.transform.translation.z = -0.004
         elif self.direction == "rwheel":
             self.motor_driver = MOTOR_DRIVER_RIGHT
+            self.t.transform.translation.x = 0.0753
+            self.t.transform.translation.y = -0.137
+            self.t.transform.translation.z = -0.004
     
     def publishWheelData(self):
         print(self.motor_driver)
@@ -44,6 +55,15 @@ class macbot_motor():
             print(self.distDict['enc'])
             self.pubTicks.publish(self.distDict['enc'])
             self.pubRate.publish(self.distDict['spa'])
+
+            self.br = tf2_ros.TransformBroadcaster()
+            self.t = geometry_msgs.msg.TransformStamped()
+            self.t.header.stamp = rospy.Time.now()
+            self.q = tf_conversions.transformations.quaternion_from_euler(0, 0, 3.11) # 1122 ticks per revolution / 360*
+            self.t.transform.rotation.x = q[0]
+            self.t.transform.rotation.y = q[1]
+            self.t.transform.rotation.z = q[2]
+            self.br.sendTransform(self.t)
     
 def handler(signal, frame):
     # program cleanup
@@ -60,5 +80,6 @@ if __name__ == '__main__':
     while 1:
         print("WHAT")
         left_wheel_obj.publishWheelData()
+        left_wheel_obj.tfBroadcaster()
         right_wheel_obj.publishWheelData()
         time.sleep(0.1)
