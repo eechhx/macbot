@@ -13,22 +13,25 @@ class macbot_tf2_broadcaster():
         self.direction = str(direction_wheel)
         self.direction_check()
         self.t.header.frame_id = "base_link"
-        self.t.child_frame_id = str(direction_wheel) + "_wheel_joint"
+        self.t.child_frame_id = self.directionString + "_wheel"
 
     def direction_check(self):
         if self.direction == "lwheel":
+            self.directionString = "left"
             self.t.transform.translation.x = 0.0753
             self.t.transform.translation.y = 0.137
             self.t.transform.translation.z = -0.004
         elif self.direction == "rwheel":
+            self.directionString = "right"
             self.t.transform.translation.x = 0.0753
             self.t.transform.translation.y = -0.137
             self.t.transform.translation.z = -0.004
 
     def publish_tf(self, msg):
+        # 1122 ticks per revolution / 360*
         revs = (-msg.data/1122.0) - int(-msg.data/1122)
         self.t.header.stamp = rospy.Time.now()
-        self.q = tf_conversions.transformations.quaternion_from_euler(0, (360*revs)*(pi/180), 0) # 1122 ticks per revolution / 360*
+        self.q = tf_conversions.transformations.quaternion_from_euler(0, (360*revs)*(pi/180), 0) 
         self.t.transform.rotation.x = self.q[0]
         self.t.transform.rotation.y = self.q[1]
         self.t.transform.rotation.z = self.q[2]
@@ -37,6 +40,7 @@ class macbot_tf2_broadcaster():
 
 if __name__ == "__main__":
     rospy.init_node('macbot_tf2_broadcaster')
+    
     left_wheel_tf = macbot_tf2_broadcaster("lwheel")
     right_wheel_tf = macbot_tf2_broadcaster("rwheel")
 
