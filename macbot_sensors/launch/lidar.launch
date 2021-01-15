@@ -4,7 +4,7 @@
 
 	<!-- X2L ydlidar -->
 	<node name = "ydlidar_node"  pkg = "ydlidar_ros"  type = "ydlidar_node" output = "screen" respawn = "false" >
-		<param name = "port"				type = "string"		value = "/dev/ydlidar"/>  
+		<param name = "port"				type = "string"		value = "/dev/ttyUSB0"/>  
 		<param name = "baudrate"			type = "int"		value = "115200"/>  
 		<param name = "frame_id"			type = "string"		value = "laser"/>
 		<param name = "resolution_fixed"	type = "bool"		value = "true"/>
@@ -39,15 +39,4 @@
 	<node pkg = "tf" type = "tf_remap" name = "tf_remapper" output = "screen">
 		<rosparam param = "mappings"> - {old: "/laser_frame", new: "/laser"} </rosparam>
   	</node>
-
-	<arg name="ticks_per_meter" value="5593" />
-    <arg name="wheel_separation" value="0.275" />
-    <node name="controller" pkg="diff_drive" type="diff_drive_controller" output="screen">
-        <rosparam subst_value="true">
-            ticks_per_meter: $(arg ticks_per_meter)
-            wheel_separation: $(arg wheel_separation)
-            max_motor_speed: 50
-            timeout: 1.0
-        </rosparam>
-    </node>
 </launch>
