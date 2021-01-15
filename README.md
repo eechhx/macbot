@@ -42,10 +42,10 @@ Navigation package utilizing ROS navigation stack. Contains configuration / para
 ## macbot_physical
 Physical package for interfacing with the MacBot. 
 
-#### Launch
+##### Launch
 * diff_drive.launch - diff_drive node required for driving MacBot.
 
-#### Nodes
+##### Nodes
 * macbot_node.py - Communicating with the various nodes on the CAN bus.
 * tf_broadcaster.py - Broadcasting the transforms of the left and right motorized wheels. 
 
@@ -54,7 +54,7 @@ Physical package for interfacing with the MacBot.
 ## macbot_sensors
 Package for launching one of the various sensors on the MacBot. 
 
-#### Launch
+##### Launch
 * camera.launch - Intel RealSense
 * lidar.launch - ydlidar
 * sensors.launch - Launch all sensors
