@@ -2,10 +2,11 @@
 
 ![macbot_rviz](macbot_images/macbot_rviz.png)
 
+
 ## macbot_description
 Contains RViz configuration files, URDFs, and meshes. Textured and textureless variants. Textureless variant does not have sensors attached. 
 
-===
+
 
 ## macbot_gazebo
 Package for Gazebo Simulations. Contains world and their model files. Script for killall Gazebo launch.
@@ -26,7 +27,7 @@ Package for Gazebo Simulations. Contains world and their model files. Script for
 roslaunch macbot_gazebo default.launch world:=maze rviz_config:=navigation
 ```
 
-===
+
 
 ## macbot_navigation
 Navigation package utilizing ROS navigation stack. Contains configuration / parameter files for move_base package and maps.
@@ -36,7 +37,7 @@ Navigation package utilizing ROS navigation stack. Contains configuration / para
 * gmap.launch
 * localization.launch
 
-===
+
 
 ## macbot_physical
 Physical package for interfacing with the MacBot. 
@@ -48,7 +49,7 @@ Physical package for interfacing with the MacBot.
 * macbot_node.py - Communicating with the various nodes on the CAN bus.
 * tf_broadcaster.py - Broadcasting the transforms of the left and right motorized wheels. 
 
-===
+
 
 ## macbot_sensors
 Package for launching one of the various sensors on the MacBot. 
@@ -57,5 +58,3 @@ Package for launching one of the various sensors on the MacBot.
 * camera.launch - Intel RealSense
 * lidar.launch - ydlidar
 * sensors.launch - Launch all sensors
-
-===
