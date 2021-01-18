@@ -18,7 +18,6 @@
         <param name = "resampleThreshold"   value = "0.5"       />
         <param name = "particles"           value = "30"        />
         <param name = "minimumScore"        value = "300"       />
-
    </node>
 	
 </launch>
