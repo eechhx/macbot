@@ -1,6 +1,6 @@
 # MacBot - McMaster's MacBot ROS Stack
 
-![macbot_rviz](macbot_images/macbot_rviz.png)
+![macbot_rviz](docs/images/macbot_rviz.png)
 
 
 ## macbot_description
