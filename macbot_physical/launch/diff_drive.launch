@@ -1,10 +1,10 @@
 <launch>
 
     <!-- Loading in URDF.XACRO file -->
-	<param name = "robot_description" command = "$(find xacro)/xacro --inorder '$(find macbot_description)/urdf/robot_textured.xacro'"/>
+    <param name = "robot_description" command = "$(find xacro)/xacro --inorder '$(find macbot_description)/urdf/robot_textured.xacro'"/>
 
     <!-- We need robot_state_publisher to publish static transforms of the robot from URDF -->
-	<node name = "robot_state_publisher" pkg = "robot_state_publisher" type = "robot_state_publisher"/>
+    <node name = "robot_state_publisher" pkg = "robot_state_publisher" type = "robot_state_publisher"/>
 
     <!-- Launching our own macbot_node.py -->
     <node pkg = "macbot_physical" name = "macbot_node" type = "macbot_node.py"/>

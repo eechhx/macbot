@@ -1,9 +1,9 @@
 <?xml version = "1.0"?>
 
 <launch>
-  <master auto = "start" />
+	<master auto = "start" />
 
-  <param name = "use_sim_time" value = "true"/>
+	<param name = "use_sim_time" value = "true"/>
 
     <node pkg = "gmapping" name = "slam_gmapping" type = "slam_gmapping" output = "screen">
         <param name = "delta"               value = "0.01"      />
