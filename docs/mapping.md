@@ -27,7 +27,7 @@ rosrun map_server map_saver -f ~/catkin_ws/src/macbot_navigation/map/mapname
 
 Saved map file (.pgm) will look something as follows:
 
-<img src="images/mbot_gmap.png" width="100">
+<img src="images/sim_gmap.png" width="500">
 
 ## Physical (gmapping)
 
