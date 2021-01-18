@@ -26,10 +26,10 @@ rosrun map_server map_saver -f ~/catkin_ws/src/macbot_navigation/map/mapname
 ```
 
 Saved map file (.pgm) will look something as follows:
-![macbot_sim_gmap](docs/images/sim_gmap.png)
+![macbot_sim_gmap](images/sim_gmap.png)
 
 ## Physical (gmapping)
-![macbot_gmap](docs/images/mbot_gmap.png)
+![macbot_gmap](images/mbot_gmap.png)
 To map with the actual MacBot, we'll launch the following:
 
 ```
