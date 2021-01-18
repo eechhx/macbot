@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+    <!-- For Simulation Driving -->
     <node pkg = "teleop_twist_keyboard" type = "teleop_twist_keyboard.py" name = "teleop_twist_keyboard"  output = "screen">
         <param name = "_speed"  value = "3"   type = "double"/>
         <param name = "_turn"   value = "1"   type = "double"/>

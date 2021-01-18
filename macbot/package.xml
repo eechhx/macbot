@@ -13,6 +13,7 @@
   <exec_depend>macbot_navigation</exec_depend>
   <exec_depend>macbot_gazebo</exec_depend>
   <exec_depend>macbot_sensors</exec_depend>
+  <exec_depend>macbot_physical</exec_depend>
 
   <export>
     <!-- Other tools can request additional information be placed here -->

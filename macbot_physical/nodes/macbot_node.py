@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     rospy.init_node('macbot_pubsub', anonymous = True)
     left_wheel_obj = macbotMotor('lwheel')
-    right_wheel_obj = macbotMotor('rwheel')
+    #right_wheel_obj = macbotMotor('rwheel')
 
     while 1:
         left_wheel_obj.publishWheelData()
