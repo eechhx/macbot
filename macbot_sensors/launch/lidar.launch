@@ -1,7 +1,4 @@
 <launch>
-	<arg name = "show_ls"		default = "false"					/>
-	<arg name = "type_ls"		default = "gpu_ray"					/>
-
 	<!-- X2L ydlidar -->
 	<node name = "ydlidar_node"  pkg = "ydlidar_ros"  type = "ydlidar_node" output = "screen" respawn = "false" >
 		<param name = "port"				type = "string"		value = "/dev/ttyUSB0"/>  
@@ -20,8 +17,7 @@
 		<param name = "isSingleChannel"		type = "bool"		value = "true"/>
 	</node>
 
-	<!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser4" args="0.2245 0.0 0.2 0.0 0.0  0.0 /base_link /laser_frame 40" /> -->
-	<!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find ydlidar_ros)/launch/lidar.rviz" /-->
+	<!-- laser_scan_matcher node -->
 	<node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="laser_scan_matcher_node" output="screen">
 		<param name = "max_iterations" 			value="10"/>
 		<param name = "laser_scan_matcher_node/publish_pose_with_covariance" value="true"/>
