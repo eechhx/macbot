@@ -1,6 +1,8 @@
 # MacBot - McMaster's MacBot ROS Stack
 
-![macbot_rviz](docs/images/mbot_rviz.png)
+### If you are looking for detailed documentation, **[check the Wiki](https://github.com/eechhx/macbot/wiki)**.
+
+![macbot_rviz](mbot_rviz.png)
 
 
 ## macbot_description
