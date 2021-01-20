@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import rospy
-import time
 import goLinkManager as glm
 import signal
 import sys
+from time import sleep
 from std_msgs.msg import (Int32, Float32)
 
 POWER_DIST = 2
@@ -44,18 +44,19 @@ class macbotMotor():
 
 
 def handler(signal, frame):
-    # program cleanup
+    # Program Cleanup
     print(' SIGINT CTRL+C received. Exiting.')
     sys.exit(0)
+
 
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, handler)
 
     rospy.init_node('macbot_pubsub', anonymous = True)
     left_wheel_obj = macbotMotor('lwheel')
-    #right_wheel_obj = macbotMotor('rwheel')
+    right_wheel_obj = macbotMotor('rwheel')
 
     while 1:
         left_wheel_obj.publishWheelData()
-        #right_wheel_obj.publishWheelData()
-        time.sleep(0.1)
+        right_wheel_obj.publishWheelData()
+        sleep(0.1)
