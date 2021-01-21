@@ -1,37 +1,45 @@
+<?xml version="1.0"?>
+<!-- Author : Eech Hsiao -->
+<!-- hsiaoy4@mcmaster.ca -->
+
 <launch>
+
+	<!-- Loading in URDF.XACRO file -->
+    <param name = "robot_description" command = "$(find xacro)/xacro --inorder '$(find macbot_description)/urdf/robot_textured.xacro'"/>
+
+    <!-- We need robot_state_publisher to publish static transforms of the robot from URDF -->
+    <node name = "robot_state_publisher" pkg = "robot_state_publisher" type = "robot_state_publisher"/>
+
 	<!-- Intel RealSense d435 -->
 	<include file="$(find realsense2_camera)/launch/rs_camera.launch">
 		<arg name = "pointcloud_texture_stream"	default = "RS2_STREAM_ANY"/>  <!-- RS2_STREAM_ANY leads to high CPU consumption -->
 		<arg name = "enable_pointcloud"         default = "true"/>
-		<arg name = "enable_color"        	default = "false"/>
-		<arg name = "enable_depth"        	default = "true"/>
-		<arg name = "enable_infra2"        	default = "false"/>
-		<arg name = "enable_infra1"        	default = "false"/>
-		<arg name = "align_depth"         	default = "false"/>
-		<arg name = "depth_width"         	default = "640"/>
-		<arg name = "depth_height"        	default = "480"/>
+		<arg name = "enable_color"        		default = "false"/>
+		<arg name = "enable_depth"        		default = "true"/>
+		<arg name = "enable_infra2"        		default = "false"/>
+		<arg name = "enable_infra1"        		default = "false"/>
+		<arg name = "align_depth"         		default = "false"/>
+		<arg name = "depth_width"         		default = "640"/>
+		<arg name = "depth_height"        		default = "480"/>
 	</include>
 
 	<!-- X2L ydlidar -->
 	<node name="ydlidar_node"  pkg="ydlidar_ros"  type="ydlidar_node" output="screen" respawn="false" >
-		<param name = "port"			type = "string"		value = "/dev/ydlidar"/>  
-		<param name = "baudrate"		type = "int"		value = "115200"/>  
+		<param name = "port"				type = "string"		value = "/dev/ttyUSB0"/>  
+		<param name = "baudrate"			type = "int"		value = "115200"/>  
 		<param name = "frame_id"     		type = "string"		value = "laser_frame"/>
 		<param name = "resolution_fixed"	type = "bool"   	value = "true"/>
 		<param name = "auto_reconnect"		type = "bool"   	value = "true"/>
-		<param name = "reversion"		type = "bool"   	value = "false"/>
-		<param name = "angle_min"		type = "double" 	value = "-180" />
-		<param name = "angle_max"		type = "double" 	value = "180" />
-		<param name = "range_min"		type = "double" 	value = "0.1" />
-		<param name = "range_max"		type = "double" 	value =	"12.0" />
+		<param name = "reversion"			type = "bool"   	value = "false"/>
+		<param name = "angle_min"			type = "double" 	value = "-180" />
+		<param name = "angle_max"			type = "double" 	value = "180" />
+		<param name = "range_min"			type = "double" 	value = "0.1" />
+		<param name = "range_max"			type = "double" 	value =	"12.0" />
 		<param name = "ignore_array"		type = "string" 	value = "" />
-		<param name = "frequency"		type = "double"		value = "8"/>
-		<param name = "samp_rate"		type = "int"		value = "3"/>
+		<param name = "frequency"			type = "double"		value = "8"/>
+		<param name = "samp_rate"			type = "int"		value = "3"/>
 		<param name = "isSingleChannel"		type = "bool"		value = "true"/>
 	</node>
 
-	<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser4" args="0.2245 0.0 0.2 0.0 0.0 0.0 /base_link /laser_frame 40" />
-	<node pkg="tf" type="static_transform_publisher" name="base_link_to_camera" args="0 0 0 0 0 0 /base_link /camera_link 40"/>
-	<!--node name="rviz" pkg="rviz" type="rviz"/-->
 </launch>
 

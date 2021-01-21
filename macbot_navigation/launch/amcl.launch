@@ -11,7 +11,6 @@
 	<arg name = "global_frame_id"	default = "map"/>
 	<arg name = "odom_topic"		default = "mobile_base_controller/odom" />
 	<arg name = "laser_topic"		default = "scan" />
-	<arg name = "map_file"	    	default = "gmap_map"/>
 
 	<!-- MAP SERVER -->
 	<arg name = "map_file" default = "$(find macbot_navigation)/map/gmap_map.yaml"/>

@@ -16,10 +16,10 @@ static:
     subscribe_to_updates: true
 
 obstacles_laser:
-    observation_sources: laser_scan
+    observation_sources: scan
     publish_voxel_map:    true
     track_unknown_space:  true
-    laser_scan: {data_type: LaserScan, sensor_frame: ydlidar, clearing: true, marking: true, topic: scan, inf_is_valid: true}
+    laser_scan: {data_type: LaserScan, sensor_frame: laser, clearing: true, marking: true, topic: scan, inf_is_valid: false}
 
 inflation:
     inflation_radius: 0.4

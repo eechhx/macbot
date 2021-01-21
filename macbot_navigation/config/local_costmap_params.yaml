@@ -1,9 +1,9 @@
 local_costmap:
-  rolling_window: true
-  width: 4
-  height: 4
-  transform_tolerance: 0.5
+	rolling_window: true
+	width: 4
+	height: 4
+	transform_tolerance: 0.5
 
-  plugins:
-    - {name: obstacles_laser,           type: "costmap_2d::ObstacleLayer"}
-    - {name: inflation,                 type: "costmap_2d::InflationLayer"}
+	plugins:
+		- {name: obstacles_laser,           type: "costmap_2d::ObstacleLayer"}
+		- {name: inflation,                 type: "costmap_2d::InflationLayer"}
