@@ -20,8 +20,8 @@
             ticks_per_meter: $(arg ticks_per_meter)
             wheel_separation: $(arg wheel_separation)
             max_motor_speed: 100
-            timeout: 1.0
-            rate: 10
+            timeout: 0.1
+            rate: 0.5
         </rosparam>
     </node>
 
