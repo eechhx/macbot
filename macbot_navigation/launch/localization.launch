@@ -4,8 +4,8 @@
 
 <launch>
 	<master auto = "start"/>
-	<arg name = "no_static_map" default = "false"/>
-    <arg name = "map_arg"	    default = "gmap_map"/>
+	<arg name = "no_static_map"		default = "false"/>
+    <arg name = "map_file"	    	default = "gmap_map"/>
 
 	<!-- MAP SERVER -->
 	<arg name = "map_file" default = "$(find macbot_navigation)/map/$(arg map_arg).yaml"/>

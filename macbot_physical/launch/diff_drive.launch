@@ -1,3 +1,7 @@
+<?xml version="1.0"?>
+<!-- Author : Eech Hsiao -->
+<!-- hsiaoy4@mcmaster.ca -->
+
 <launch>
 
     <!-- Loading in URDF.XACRO file -->
@@ -19,9 +23,9 @@
         <rosparam subst_value = "true">
             ticks_per_meter: $(arg ticks_per_meter)
             wheel_separation: $(arg wheel_separation)
-            max_motor_speed: 100
+            max_motor_speed: 60
             timeout: 0.1
-            rate: 0.5
+            rate: 5
         </rosparam>
     </node>
 
