@@ -13,12 +13,12 @@ Contains RViz configuration files, URDFs, and meshes. Textured and textureless v
 ## macbot_gazebo
 Package for Gazebo Simulations. Contains world and their model files. Script for killall Gazebo launch.
 
-##### Models
+**Models**
 * maze
 * maze_short_textured
 * maze_textured
 
-##### Launch 
+**Launch**
 * default.launch - Main launch file for launching Gazebo and RViz
     - model: robot_textured (default), robot_texturesless
     - world: empty (default), maze, contact_stability
@@ -34,7 +34,7 @@ roslaunch macbot_gazebo default.launch world:=maze rviz_config:=navigation
 ## macbot_navigation
 Navigation package utilizing ROS navigation stack. Contains configuration / parameter files for move_base package and maps.
 
-##### Launch
+**Launch**
 * amcl.launch
 * gmap.launch
 * localization.launch
@@ -44,10 +44,10 @@ Navigation package utilizing ROS navigation stack. Contains configuration / para
 ## macbot_physical
 Physical package for interfacing with the MacBot. 
 
-##### Launch
+**Launch**
 * diff_drive.launch - diff_drive node required for driving MacBot.
 
-##### Nodes
+**Nodes**
 * macbot_node.py - Communicating with the various nodes on the CAN bus.
 * tf_broadcaster.py - Broadcasting the transforms of the left and right motorized wheels. 
 
@@ -56,7 +56,10 @@ Physical package for interfacing with the MacBot.
 ## macbot_sensors
 Package for launching one of the various sensors on the MacBot. 
 
-##### Launch
+**Launch**
 * camera.launch - Intel RealSense
 * lidar.launch - ydlidar
 * sensors.launch - Launch all sensors
+
+**Nodes**
+* pose_odom.py - Publishes `nav_msgs/Odometry` messages from `geometry_msgs/PoseStamped` messages outputted by [laser_scan_matcher](http://wiki.ros.org/laser_scan_matcher) 
