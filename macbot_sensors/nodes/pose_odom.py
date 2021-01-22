@@ -4,8 +4,11 @@ import rospy
 import tf
 import tf_conversions
 import tf2_ros
+import sys
+import signal
 from nav_msgs.msg import Odometry
-from geometry_msgs.msg import PoseStamped
+from time import sleep
+from geometry_msgs.msg import PoseStamped, Quaternion, Point, Pose, Quaternion, Twist, Vector3
 
 """
 PoseStamped data structure:
@@ -28,57 +31,85 @@ pose:
           w: 0.0
 """
 
-delta_x_prev = 0.0
-delta_y_prev = 0.0
-delta_z_prev = 0.0
 
-delta_qx_prev = 0.0
-delta_qy_prev = 0.0
-delta_qz_prev = 0.0
-delta_qw_prev = 0.0
+class poseOdom():
+     def __init__(self):
+          self.pubOdom = rospy.Publisher("odom", Odometry, queue_size = 1)
 
-rospy.init_node('odom_from_poseStamped')
-last_time = rospy.Time.now()
+          self.x_prev = 0.1
+          self.y_prev = 0.1
+          self.z_prev = 0.1
 
-odom = Odometry()
-odom.header.frame_id = "odom"
-odom.child_frame_id = "base_link"
+          self.vx = 0.1
+          self.vy = 0.1
+          self.vz = 0.1
 
-def callback(data):
-     pubOdom = rospy.Publisher("odom", Odometry, queue_size = 1)
-     
-     time_now = data.stamp.secs
-     odom.header.stamp = time_now
+          self.quat = [0.1, 0.1, 0.1, 0.1]
+          self.quat_prev = [0.1, 0.1, 0.1, 0.1]
 
-     delta_t = time_now - time_prev
-     delta_x = (data.Point.x + delta_x_prev)/delta_t
-     delta_y = (data.Point.y + delta_y_prev)/delta_t
-     delta_z = (data.Point.z + delta_z_prev)/delta_t
+          self.time_now = rospy.Time.now()
+          self.time_prev = rospy.Time.now()
 
-     delta_qx = (data.Quaternion.x + delta_qx_prev)/delta_t
-     delta_qy = (data.Quaternion.y + delta_qy_prev)/delta_t
-     delta_qz = (data.Quaternion.z + delta_qz_prev)/delta_t
-     delta_qw = (data.Quaternion.w + delta_qw_prev)/delta_t
+          self.odom = Odometry()
+          self.odom.header.frame_id = "odom"
+          self.odom.child_frame_id = "base_link"
 
-     vx += delta_x
-     vy += delta_y
-     vz += delta_z
-     qx += delta_qx
-     qy += delta_qy
-     qz += delta_qz
-     qw += delta_qw
+     def listener(self):
+          self.subPoseStamped = rospy.Subscriber("pose_stamped", PoseStamped, self.callback)
+          rospy.spin()
 
-     rpy = tf.transformations.euler_from_quaternion(qx, qy, qz, qw)
+     def callback(self, data):
+          self.time_now = rospy.Time.now()
+          self.odom.header.stamp = data.header.stamp.secs
 
-     odom.pose.pose = Pose(Point(data.Point.x, data.Point.y, data.Point.z), Quaternion(data.Quaternion.x, data.Quaternion.y, data.Quaternion.z, data.Quaternion.w))
-     odom.twist.twist = Twist(Vector3(vx, vy, vz), Vector3(rpy[0], rpy[1], rpy[2]))
+          self.delta_t = (self.time_now - self.time_prev).to_sec()
+          self.delta_x = (data.pose.position.x + self.x_prev)/self.delta_t
+          self.delta_y = (data.pose.position.y + self.y_prev)/self.delta_t
+          self.delta_z = (data.pose.position.z + self.z_prev)/self.delta_t
 
-     # Publish message and increment time_prev
-     odom_pub.publish(odom)
-     time_prev = time_now
+          self.delta_qx = (data.pose.orientation.x + self.quat_prev[0])/self.delta_t
+          self.delta_qy = (data.pose.orientation.y + self.quat_prev[1])/self.delta_t
+          self.delta_qz = (data.pose.orientation.z + self.quat_prev[2])/self.delta_t
+          self.delta_qw = (data.pose.orientation.w + self.quat_prev[3])/self.delta_t
+
+          self.x_prev = data.pose.position.x
+          self.y_prev = data.pose.position.y
+          self.z_prev = data.pose.position.z
+
+          self.quat_prev[0] = data.pose.orientation.x
+          self.quat_prev[1] = data.pose.orientation.y
+          self.quat_prev[2] = data.pose.orientation.z
+          self.quat_prev[3] = data.pose.orientation.w
+
+          self.vx += self.delta_x
+          self.vy += self.delta_y
+          self.vz += self.delta_z
+
+          self.quat[0] += self.delta_qx
+          self.quat[1] += self.delta_qy
+          self.quat[2] += self.delta_qz
+          self.quat[3] += self.delta_qw
+
+          self.rpy = tf.transformations.euler_from_quaternion(self.quat)
+
+          self.odom.pose.pose = Pose(Point(data.pose.position.x, data.pose.position.y, data.pose.position.z), Quaternion(data.pose.orientation.x, data.pose.orientation.y, data.pose.orientation.z, data.pose.orientation.w))
+          self.odom.twist.twist = Twist(Vector3(self.vx, self.vy, self.vz), Vector3(self.rpy[0], self.rpy[1], self.rpy[2]))
+
+          # Publish message
+          self.pubOdom.publish(self.odom)
+          self.time_prev = self.time_now
+
+def handler(signal, frame):
+    # Program Cleanup
+    print(' SIGINT CTRL+C received. Exiting.')
+    sys.exit(0)
+
 
 if __name__ == "__main__":
+     signal.signal(signal.SIGINT, handler)
 
-     r = rospy.Rate(1.0)
-     subPoseStamped = rospy.Subscriber("pose_stamped", PoseStamped, callback)
-     rospy.spin()
+     rospy.init_node('odom_from_poseStamped')
+     pose_odom_obj = poseOdom()
+
+     while 1:
+          pose_odom_obj.listener()
