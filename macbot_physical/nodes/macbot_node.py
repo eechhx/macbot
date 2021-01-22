@@ -52,7 +52,7 @@ def handler(signal, frame):
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, handler)
 
-    rospy.init_node('macbot_pubsub', anonymous = True)
+    rospy.init_node('macbot_pubsub')
     left_wheel_obj = macbotMotor('lwheel')
     right_wheel_obj = macbotMotor('rwheel')
 
