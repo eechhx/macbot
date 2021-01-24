@@ -35,7 +35,9 @@ pose:
 
 class poseOdom():
      def __init__(self):
-          self.pubOdom = rospy.Publisher("odom", Odometry, queue_size = 2)
+          self.pubOdom = rospy.Publisher("odom", Odometry, queue_size = 1)
+
+          #self.r = rospy.Rate(5)
 
           self.x_prev = 0.01
           self.y_prev = 0.01
@@ -43,7 +45,6 @@ class poseOdom():
 
           self.quat = [0.01, 0.01, 0.01, 0.01]
           self.quat_prev = [0.01, 0.01, 0.01, 0.01]
-          self.delta_q = [0.01, 0.01, 0.01, 0.01]
 
           self.time_now = rospy.Time.now()
           self.time_prev = rospy.Time.now()
@@ -62,18 +63,17 @@ class poseOdom():
 
           self.delta_t = (self.time_now - self.time_prev).to_sec()
 
-          self.delta_q[0] = (data.pose.orientation.x + self.quat_prev[0])/self.delta_t
-          self.delta_q[1] = (data.pose.orientation.y + self.quat_prev[1])/self.delta_t
-          self.delta_q[2] = (data.pose.orientation.z + self.quat_prev[2])/self.delta_t
-          self.delta_q[3] = (data.pose.orientation.w + self.quat_prev[3])/self.delta_t
+          self.quat[0] = (data.pose.orientation.x + self.quat_prev[0])/self.delta_t
+          self.quat[1] = (data.pose.orientation.y + self.quat_prev[1])/self.delta_t
+          self.quat[2] = (data.pose.orientation.z + self.quat_prev[2])/self.delta_t
+          self.quat[3] = (data.pose.orientation.w + self.quat_prev[3])/self.delta_t
 
           self.quat_prev[0] = data.pose.orientation.x
           self.quat_prev[1] = data.pose.orientation.y
           self.quat_prev[2] = data.pose.orientation.z
           self.quat_prev[3] = data.pose.orientation.w
 
-          self.rpy = tf.transformations.euler_from_quaternion(self.delta_q)
-
+          self.rpy = tf.transformations.euler_from_quaternion(self.quat)
           self.vx = ((data.pose.position.x + self.x_prev)/self.delta_t)/cos(self.rpy[2])
           self.x_prev = data.pose.position.x
 
@@ -82,6 +82,7 @@ class poseOdom():
 
           # Publish message
           self.pubOdom.publish(self.odom)
+          #self.r.sleep()
           self.time_prev = self.time_now
 
 def handler(signal, frame):

@@ -30,5 +30,5 @@
     </node>
 
     <!-- teleop_twist_keyboard drive with keyboard for cmd_vel -->
-    <node pkg = "teleop_twist_keyboard" type = "teleop_twist_keyboard.py" name = "teleop_twist_keyboard" output = "screen"/>
+    <!-- <node pkg = "teleop_twist_keyboard" type = "teleop_twist_keyboard.py" name = "teleop_twist_keyboard" output = "screen"/> -->
 </launch>
