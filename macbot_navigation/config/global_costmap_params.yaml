@@ -3,8 +3,10 @@ global_costmap:
   transform_tolerance: 0.5
   rolling_window: false
   track_unknown_space: true
+  width: 4
+  height: 4
 
   plugins:
   - {name: static,                  type: "costmap_2d::StaticLayer"}
-  - {name: obstacles_laser,         type: "costmap_2d::VoxelLayer"}
+  - {name: obstacles_laser,         type: "costmap_2d::ObstacleLayer"}
   - {name: inflation,               type: "costmap_2d::InflationLayer"}
