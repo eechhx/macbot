@@ -20,9 +20,9 @@ Package for Gazebo Simulations. Contains world and their model files. Script for
 
 **Launch**
 * default.launch - Main launch file for launching Gazebo and RViz
-    - model: robot_textured (default), robot_texturesless
-    - world: empty (default), maze, contact_stability
-    - rviz_config: sensors (default), mapping, navigation, robot
+    - `model` (default: `robot_textured`), `robot_texturesless`
+    - `world` (default: `empty`), `maze`, `contact_stability`
+    - `rviz_config` (default: `sensors`), `mapping`, `navigation`, `robot`
 * teleop.launch - Keyboard teleop controls for driving the robot around
 
 ```
@@ -32,13 +32,21 @@ roslaunch macbot_gazebo default.launch world:=maze rviz_config:=navigation
 
 
 ## macbot_navigation
-Navigation package utilizing ROS navigation stack. Contains configuration / parameter files for move_base package and maps.
+Navigation package utilizing ROS navigation stack. Contains configuration / parameter files for move_base package and maps. Launch files with `_macbot` are specific for the actual robot. The ones without are used for Gazebo simulated environments.
+
+**Maps**
+* `enviro` (mapped environment from ydlidar)
+* `gmap_map` (maze)
 
 **Launch**
+* amcl_macbot.launch
+    - `map_arg` (default: `enviro`)
 * amcl.launch
+    - `map_arg` (default: `gmap_map`)
+* gmap_macbot.launch
 * gmap.launch
 * localization.launch
-
+    - `map_arg` (default: `gmap_map`)
 
 
 ## macbot_physical
@@ -59,6 +67,7 @@ Package for launching one of the various sensors on the MacBot.
 **Launch**
 * camera.launch - Intel RealSense
 * lidar.launch - ydlidar
+    - `pub_tf` (default: `false`) - Publishes the TF link between `odom` and `base_link`.
 * sensors.launch - Launch all sensors
 
 **Nodes**
