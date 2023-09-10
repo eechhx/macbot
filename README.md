@@ -1,4 +1,4 @@
-# MacBot - McMaster's Autonomous Robot ROS Stack
+# MacBot - Autonomous Robot ROS Stack
 
 ### If you are looking for detailed documentation, **[check the Wiki](https://github.com/eechhx/macbot/wiki)**.
 
